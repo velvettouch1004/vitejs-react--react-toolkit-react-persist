@@ -35,7 +35,7 @@ const Todolist = () => {
               <td
                 className={`border border-slate-600 p-4 cursor-pointer hover:bg-slate-700 ${
                   value.checked
-                    ? "line-through decoration-green-600 decoration-double bg-gray-800"
+                    ? "line-through decoration-green-600 decoration-double bg-gray-800 text-green-600"
                     : ""
                 }`}
                 onClick={() => dispatch(checkTodo(index))}
@@ -52,7 +52,7 @@ const Todolist = () => {
                   </button>
                   <button
                     className="bg-blue-500 text-white rounded-md p-1"
-                    onClick={() => editHandler(value.note, index)}
+                    onClick={() => editHandler(value, index)}
                   >
                     Edit
                   </button>

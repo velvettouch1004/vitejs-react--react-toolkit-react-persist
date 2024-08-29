@@ -5,15 +5,16 @@ const Modal = (props) => {
   const [note, setNote] = useState("");
   const dispatch = useDispatch();
   const { data, close } = props;
+
   useEffect(() => {
     if (data) {
-      setNote(data.data);
+      setNote(data.data.note);
     }
   }, [data]);
   const handleClick = () => {
     const newdata = {
       note: note,
-      checked: false,
+      checked: data ? data.data.checked : false,
     };
     if (data) {
       dispatch(editTodo(newdata, data.index));
