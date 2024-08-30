@@ -1,9 +1,25 @@
-import { createStore } from "redux";
-import todoReducer from "./reducer";
+import { configureStore } from "@reduxjs/toolkit";
+import todoReducer from "./slice/todoSlice";
+import storage from "redux-persist/lib/storage";
+import { persistReducer, persistStore } from "redux-persist";
 
-const store = createStore(
-  todoReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+const persistConfig = {
+  key: "roots",
+  storage,
+};
 
-export default store;
+const persistedReducer = persistReducer(persistConfig, todoReducer);
+
+export const store = configureStore({
+  reducer: {
+    todos: persistedReducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
+      },
+    }),
+});
+
+export const persistor = persistStore(store);

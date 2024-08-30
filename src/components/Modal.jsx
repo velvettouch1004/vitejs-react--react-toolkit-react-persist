@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { addTodo, editTodo } from "../redux/action";
+import { addTodo, updateTodo } from "../redux/slice/todoSlice";
 const Modal = (props) => {
   const [note, setNote] = useState("");
   const dispatch = useDispatch();
@@ -8,18 +8,14 @@ const Modal = (props) => {
 
   useEffect(() => {
     if (data) {
-      setNote(data.data.note);
+      setNote(data.note);
     }
   }, [data]);
   const handleClick = () => {
-    const newdata = {
-      note: note,
-      checked: data ? data.data.checked : false,
-    };
     if (data) {
-      dispatch(editTodo(newdata, data.index));
+      dispatch(updateTodo({ id: data.id, note }));
     } else {
-      dispatch(addTodo(newdata));
+      dispatch(addTodo(note));
     }
     close();
   };
@@ -36,7 +32,7 @@ const Modal = (props) => {
         className="bg-green-500 text-white p-2 mt-4 rounded-r-lg hover:bg-green-400"
         onClick={() => handleClick()}
       >
-        Add
+        {data ? "Edit" : "Add"}
       </button>
     </div>
   );
