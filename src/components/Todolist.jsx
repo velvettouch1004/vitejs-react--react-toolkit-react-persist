@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Modal from "./Modal";
 import { useSelector, useDispatch } from "react-redux";
-import { checkTodo, removeTodo } from "../redux/action";
+import { checkTodo, removeTodo } from "../redux/slice/todoSlice";
 const Todolist = () => {
   const [note, setNote] = useState([]);
   const [toggle, setToggle] = useState(false);
@@ -11,8 +11,8 @@ const Todolist = () => {
   useEffect(() => {
     setNote(todo);
   }, [todo]);
-  const editHandler = (data, index) => {
-    setModaldata({ data, index });
+  const editHandler = (data) => {
+    setModaldata(data);
     setToggle(true);
   };
   const closeModal = () => {
@@ -22,7 +22,7 @@ const Todolist = () => {
   return (
     <div>
       <p className="text-5xl pb-4">To Do Lists</p>
-      <table className="table-auto rounded-md bg-slate-800 outline-offset-2 border-slate-500 w-full">
+      <table className="rounded-md bg-slate-800 outline-offset-2 border-slate-500 w-full">
         <thead>
           <tr>
             <th className="border border-slate-600 p-4">Title</th>
@@ -38,7 +38,7 @@ const Todolist = () => {
                     ? "line-through decoration-green-600 decoration-double bg-gray-800 text-green-600"
                     : ""
                 }`}
-                onClick={() => dispatch(checkTodo(index))}
+                onClick={() => dispatch(checkTodo(value.id))}
               >
                 {value.note}
               </td>
@@ -46,13 +46,13 @@ const Todolist = () => {
                 <div className="flex justify-around">
                   <button
                     className="bg-red-400 text-white rounded-md p-1"
-                    onClick={() => dispatch(removeTodo(index))}
+                    onClick={() => dispatch(removeTodo(value.id))}
                   >
                     Delete
                   </button>
                   <button
                     className="bg-blue-500 text-white rounded-md p-1"
-                    onClick={() => editHandler(value, index)}
+                    onClick={() => editHandler(value)}
                   >
                     Edit
                   </button>
