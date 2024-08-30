@@ -6,7 +6,7 @@ const Todolist = () => {
   const [note, setNote] = useState([]);
   const [toggle, setToggle] = useState(false);
   const [modaldata, setModaldata] = useState(null);
-  const todo = useSelector((state) => state.todos);
+  const todo = useSelector((state) => state.todos.list);
   const dispatch = useDispatch();
   useEffect(() => {
     setNote(todo);
@@ -30,8 +30,8 @@ const Todolist = () => {
           </tr>
         </thead>
         <tbody>
-          {note.map((value, index) => (
-            <tr key={index}>
+          {note.map((value) => (
+            <tr key={value.id}>
               <td
                 className={`border border-slate-600 p-4 cursor-pointer hover:bg-slate-700 ${
                   value.checked
